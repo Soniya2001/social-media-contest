@@ -79,7 +79,12 @@ RULES:
 """
 
 def analyze_sync(content):
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    # Automatically find the best available flash model
+    available_models = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
+    flash_models = [m for m in available_models if 'flash' in m.lower()]
+    model_name = flash_models[0] if flash_models else 'gemini-pro'
+    
+    model = genai.GenerativeModel(model_name)
     response = model.generate_content(f"{SYSTEM_PROMPT}\n\nINPUT:\n{content}")
     try:
         text = response.text
