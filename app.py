@@ -1,5 +1,5 @@
 import streamlit as st
-import google.generativeai as genai
+from google import genai
 import json
 import os
 from datetime import datetime
@@ -56,8 +56,8 @@ except Exception:
 
 API_KEY = API_KEY or os.environ.get("GEMINI_API_KEY")
 
-if API_KEY:
-    genai.configure(api_key=API_KEY)
+# New SDK initializes with a client object
+pass
 
 SYSTEM_PROMPT = """
 You are an AI-powered team coordination assistant.
@@ -79,13 +79,20 @@ RULES:
 """
 
 def analyze_sync(content):
-    # Automatically find the best available flash model
-    available_models = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
-    flash_models = [m for m in available_models if 'flash' in m.lower()]
-    model_name = flash_models[0] if flash_models else 'gemini-pro'
+    client = genai.Client(api_key=API_KEY)
     
-    model = genai.GenerativeModel(model_name)
-    response = model.generate_content(f"{SYSTEM_PROMPT}\n\nINPUT:\n{content}")
+    # Automatically find the best available flash model
+    try:
+        models = client.models.list()
+        flash_models = [m.name for m in models if 'flash' in m.name.lower()]
+        model_id = flash_models[0] if flash_models else 'gemini-2.0-flash'
+    except Exception:
+        model_id = 'gemini-2.0-flash'
+    
+    response = client.models.generate_content(
+        model=model_id,
+        contents=f"{SYSTEM_PROMPT}\n\nINPUT:\n{content}"
+    )
     try:
         text = response.text
         start = text.find('{')

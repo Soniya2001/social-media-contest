@@ -1,4 +1,4 @@
 streamlit
-google-generativeai
+google-genai
 python-dotenv
 pygments>=2.15.0
