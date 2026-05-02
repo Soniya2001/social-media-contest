@@ -79,16 +79,23 @@ RULES:
 """
 
 def analyze_sync(content):
-    model = genai.GenerativeModel('gemini-2.5-flash')
+    model = genai.GenerativeModel('gemini-1.5-flash')
     response = model.generate_content(f"{SYSTEM_PROMPT}\n\nINPUT:\n{content}")
     try:
-        # Extract JSON from the response text
         text = response.text
         start = text.find('{')
         end = text.rfind('}') + 1
-        return json.loads(text[start:end])
+        json_str = text[start:end]
+        
+        # Enhanced cleanup
+        import re
+        # Remove markdown code blocks if present
+        json_str = re.sub(r'```json\s*|\s*```', '', json_str)
+        
+        return json.loads(json_str)
     except Exception as e:
-        return {"error": f"Failed to parse AI response: {str(e)}"}
+        st.error(f"Raw AI response was: {response.text}")
+        return {"error": "Failed to parse AI response. Please try with simpler input."}
 
 # --- UI LAYOUT ---
 st.title("🚀 NexusFlow AI")
