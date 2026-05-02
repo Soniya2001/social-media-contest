@@ -1,0 +1,14 @@
+{
+  "name": "NexusFlow AI",
+  "description": "Intelligent Team Coordination Assistant",
+  "repository": "https://github.com/Soniya2001/social-media-contest",
+  "env": {
+    "GEMINI_API_KEY": {
+      "description": "Your Google Gemini API Key",
+      "required": true
+    }
+  },
+  "hooks": {
+    "pre-deploy": "echo 'Starting deployment...'"
+  }
+}

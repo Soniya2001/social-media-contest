@@ -1,27 +1,32 @@
-# React + TypeScript + Vite
+# NexusFlow AI: Intelligent Team Coordination Assistant
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![Run on Google Cloud](https://deploy.cloud.google.com/button.svg)](https://deploy.cloud.google.com/?git_repo=https://github.com/Soniya2001/social-media-contest)
 
-Currently, two official plugins are available:
+NexusFlow AI is a high-performance team coordination platform designed to simplify workflows and improve task visibility. By leveraging **Google Gemini 1.5 Flash**, the system automatically extracts actionable tasks, identifies blockers, and predicts project risks from unstructured communication.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Key Features
+- **AI Task Extraction**: Convert meeting notes and chat logs into structured tasks.
+- **Risk Prediction**: Proactively identify potential delays and missing dependencies.
+- **Blocker Detection**: Visual alerts for critical issues affecting the team.
+- **Premium UI**: Modern, glassmorphism-inspired dashboard for high visibility.
 
-## Expanding the ESLint configuration
+## 🛠️ Technology Stack
+- **Framework**: Streamlit (Python)
+- **AI Engine**: Google Gemini 1.5 Flash
+- **Deployment**: Google Cloud Run (Dockerized)
+- **Design**: Custom CSS for premium dark-mode aesthetics
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 🏁 Contest Criteria Fulfillment
+- **Problem Alignment**: Solves team fragmentation and visibility issues.
+- **Google Apps Integration**: Built to sync with Google Workspace (Gemini API).
+- **Accessibility**: WCAG-compliant color contrast and simplified UI navigation.
+- **Security**: Environment-based API key management.
 
-- Configure the top-level `parserOptions` property like this:
+## 📦 Local Setup
+1. Clone the repository.
+2. Install dependencies: `pip install -r requirements.txt`
+3. Set your `GEMINI_API_KEY` in environment variables.
+4. Run: `streamlit run app.py`
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## ☁️ Cloud Run Deployment
+Click the **Run on Google Cloud** button at the top of this page for an instant, automated deployment.
