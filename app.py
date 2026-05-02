@@ -3,6 +3,10 @@ import google.generativeai as genai
 import json
 import os
 from datetime import datetime
+from dotenv import load_dotenv
+
+# Load environment variables from .env
+load_dotenv()
 
 # --- PAGE CONFIG ---
 st.set_page_config(
@@ -44,7 +48,14 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # --- API SETUP ---
-API_KEY = st.secrets.get("GEMINI_API_KEY") or os.environ.get("GEMINI_API_KEY")
+API_KEY = None
+try:
+    API_KEY = st.secrets.get("GEMINI_API_KEY")
+except Exception:
+    pass
+
+API_KEY = API_KEY or os.environ.get("GEMINI_API_KEY")
+
 if API_KEY:
     genai.configure(api_key=API_KEY)
 
@@ -68,7 +79,7 @@ RULES:
 """
 
 def analyze_sync(content):
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel('gemini-2.5-flash')
     response = model.generate_content(f"{SYSTEM_PROMPT}\n\nINPUT:\n{content}")
     try:
         # Extract JSON from the response text
