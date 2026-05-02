@@ -1,16 +1,20 @@
-# Stage 1: Build
-FROM node:18-alpine as build-stage
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npm run build
+FROM python:3.9-slim
 
-# Stage 2: Serve
-FROM nginx:stable-alpine as production-stage
-COPY --from=build-stage /app/dist /usr/share/nginx/html
-# Custom nginx config to handle SPA routing if needed
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    curl \
+    software-properties-common \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY . .
+
+RUN pip3 install -r requirements.txt
+
 EXPOSE 8080
-# Cloud Run sets the PORT environment variable to 8080 by default
-CMD ["nginx", "-g", "daemon off;"]
+
+HEALTHCHECK CMD curl --fail http://localhost:8080/_stcore/health
+
+ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=8080", "--server.address=0.0.0.0"]
